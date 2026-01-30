@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RenewAI — Enterprise SaaS Renewal Analytics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=4">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header-container">
+        <div class="header-left">
+          <h1 class="logo">🔄 RenewAI</h1>
+          <p class="tagline">Enterprise SaaS Renewal Prediction & Portfolio Analytics</p>
+        </div>
+        <div class="header-right">
+          <div class="status-badge status-active">
+            <span class="status-dot"></span>
+            Live Analytics
+          </div>
+        </div>
+      </div>
+      <div class="header-insight">
+        <p><strong>Portfolio Insight:</strong> Monitor your SaaS renewal health across 4,000+ customers. Identify at-risk accounts, understand churn drivers, and take targeted interventions.</p>
+      </div>
+    </header>
+
+    <main class="main">
+      <!-- PORTFOLIO HEALTH DASHBOARD -->
+      <section class="dashboard-section">
+        <div class="section-header">
+          <h2>📊 Portfolio Health Dashboard</h2>
+          <p class="section-desc">Real-time renewal status and customer segmentation analysis</p>
+        </div>
+
+        <div class="card portfolio-card" id="portfolio-card">
+          <div id="portfolio-loading" class="loading-skeleton">
+            <div class="skeleton-bar"></div>
+            <div class="skeleton-grid">
+              <div class="skeleton-box"></div>
+              <div class="skeleton-box"></div>
+              <div class="skeleton-box"></div>
+              <div class="skeleton-box"></div>
+            </div>
+          </div>
+
+          <div id="portfolio-content" class="portfolio-content hidden">
+            <!-- Health Summary Metrics -->
+            <div class="metrics-grid">
+              <div class="metric-box metric-total">
+                <div class="metric-icon">👥</div>
+                <div class="metric-number" id="portfolio-total">—</div>
+                <div class="metric-label">Total Customers</div>
+              </div>
+
+              <div class="metric-box metric-will-renew">
+                <div class="metric-icon">✅</div>
+                <div class="metric-number" id="portfolio-will-renew">—</div>
+                <div class="metric-sublabel" id="portfolio-will-renew-pct">—%</div>
+                <div class="metric-label">Will Renew</div>
+              </div>
+
+              <div class="metric-box metric-at-risk">
+                <div class="metric-icon">⚠️</div>
+                <div class="metric-number" id="portfolio-at-risk">—</div>
+                <div class="metric-sublabel" id="portfolio-at-risk-pct">—%</div>
+                <div class="metric-label">At Risk</div>
+              </div>
+
+              <div class="metric-box metric-churn">
+                <div class="metric-icon">🚨</div>
+                <div class="metric-number" id="portfolio-churn">—</div>
+                <div class="metric-sublabel" id="portfolio-churn-pct">—%</div>
+                <div class="metric-label">Likely to Churn</div>
+              </div>
+            </div>
+
+            <!-- Health Score -->
+            <div class="health-score-section">
+              <div class="health-score-container">
+                <div class="health-score-circle">
+                  <div class="health-score-value" id="portfolio-health-score">—%</div>
+                  <div class="health-score-label">Portfolio<br>Health</div>
+                </div>
+                <div class="health-score-details">
+                  <p><strong>What this means:</strong></p>
+                  <ul id="health-insights">
+                    <li>Percentage of customers likely to renew in next cycle</li>
+                    <li>Based on engagement, adoption, support sentiment, and payment status</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Why Churn is High Explanation -->
+            <div class="insight-box insight-warning">
+              <h3>📈 Why Are Churn Rates High?</h3>
+              <div class="insight-content">
+                <p>The <strong id="churn-percentage">49%</strong> "Likely to Churn" segment reflects realistic SaaS behavior:</p>
+                <ul class="insight-list">
+                  <li><strong>Low Feature Adoption:</strong> Many customers using <20% of available features—top churn predictor</li>
+                  <li><strong>Dormant Accounts:</strong> Customers inactive >30 days, indicating disengagement</li>
+                  <li><strong>Minimal Weekly Engagement:</strong> <5 logins/week correlates with churn</li>
+                  <li><strong>Negative Support Sentiment:</strong> Support tickets with poor sentiment = high churn risk</li>
+                  <li><strong>Payment Issues:</strong> Late or failed payments are strong churn signals</li>
+                  <li><strong>Legacy Contracts:</strong> Mature/Legacy stage customers show higher churn tendency</li>
+                </ul>
+                <p class="insight-note">✨ <strong>Opportunity:</strong> Target interventions on At Risk (31%) to prevent churn before it's too late.</p>
+              </div>
+            </div>
+
+            <!-- Segment Analysis -->
+            <div class="segments-section">
+              <h3>📍 Risk Distribution by Segment</h3>
+              
+              <div class="segments-grid">
+                <div class="segment-card">
+                  <h4>By Company Size</h4>
+                  <div id="segments-size" class="segment-list">
+                    <div class="segment-skeleton"></div>
+                  </div>
+                </div>
+
+                <div class="segment-card">
+                  <h4>By Industry</h4>
+                  <div id="segments-industry" class="segment-list">
+                    <div class="segment-skeleton"></div>
+                  </div>
+                </div>
+
+                <div class="segment-card">
+                  <h4>By Region</h4>
+                  <div id="segments-region" class="segment-list">
+                    <div class="segment-skeleton"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="portfolio-error" class="error-message hidden"></div>
+        </div>
+      </section>
+
+      <!-- HIGH-RISK CUSTOMERS -->
+      <section class="dashboard-section">
+        <div class="section-header">
+          <h2>🚨 High-Risk Customers (Immediate Action)</h2>
+          <p class="section-desc">Top 10 customers at greatest churn risk—recommended for targeted interventions</p>
+        </div>
+
+        <div class="card risk-card" id="risk-card">
+          <div id="risk-loading" class="loading-skeleton">
+            <div class="skeleton-table"></div>
+          </div>
+
+          <div id="risk-content" class="risk-content hidden">
+            <div class="risk-table-container">
+              <table class="risk-table">
+                <thead>
+                  <tr>
+                    <th>Account ID</th>
+                    <th>Renewal %</th>
+                    <th>Risk</th>
+                    <th>Company Size</th>
+                    <th>Industry</th>
+                    <th>Logins/Week</th>
+                    <th>Adoption</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="risk-tbody">
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="risk-error" class="error-message hidden"></div>
+        </div>
+      </section>
+
+      <!-- INDIVIDUAL PREDICTION -->
+      <section class="dashboard-section">
+        <div class="section-header">
+          <h2>🎯 Single Customer Prediction</h2>
+          <p class="section-desc">Simulate a customer profile to predict renewal probability</p>
+        </div>
+
+        <div class="card prediction-card">
+          <form id="predict-form" class="prediction-form">
+            <div class="form-section">
+              <h3>Quick Presets</h3>
+              <div class="preset-buttons">
+                <button type="button" class="btn btn-preset" data-preset="healthy">
+                  ✅ Healthy Account
+                </button>
+                <button type="button" class="btn btn-preset" data-preset="at-risk">
+                  ⚠️ At Risk
+                </button>
+                <button type="button" class="btn btn-preset" data-preset="churn">
+                  🚨 High Churn Risk
+                </button>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h3>Customer Metrics</h3>
+              <div class="form-grid">
+                <div class="form-row">
+                  <label for="avg_weekly_logins">Weekly Logins</label>
+                  <input type="number" id="avg_weekly_logins" name="avg_weekly_logins" min="0" max="100" value="25" required>
+                  <span class="field-hint">Engagement: 0-100</span>
+                </div>
+
+                <div class="form-row">
+                  <label for="feature_adoption_pct">Feature Adoption</label>
+                  <input type="number" id="feature_adoption_pct" name="feature_adoption_pct" min="0" max="100" step="1" value="60" required>
+                  <span class="field-hint">Product usage: 0-100%</span>
+                </div>
+
+                <div class="form-row">
+                  <label for="support_tickets">Support Tickets</label>
+                  <input type="number" id="support_tickets" name="support_tickets" min="0" max="50" value="2" required>
+                  <span class="field-hint">Total tickets opened</span>
+                </div>
+
+                <div class="form-row">
+                  <label for="avg_ticket_sentiment">Support Sentiment</label>
+                  <input type="number" id="avg_ticket_sentiment" name="avg_ticket_sentiment" min="-1" max="1" step="0.1" value="0.3" required>
+                  <span class="field-hint">Sentiment: -1 to +1</span>
+                </div>
+
+                <div class="form-row">
+                  <label for="contract_age_days">Contract Age (Days)</label>
+                  <input type="number" id="contract_age_days" name="contract_age_days" min="0" max="2000" value="180" required>
+                  <span class="field-hint">How many days since contract started (0-2000)</span>
+                </div>
+
+                <div class="form-row">
+                  <label for="renewal_window_days">Days Until Renewal</label>
+                  <input type="number" id="renewal_window_days" name="renewal_window_days" min="1" max="365" value="30" required>
+                  <span class="field-hint">Days remaining (1-365 days)</span>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-large">
+              <span class="btn-text">Predict Renewal Probability</span>
+              <span class="btn-loading hidden">Predicting…</span>
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- PREDICTION RESULT -->
+      <section class="dashboard-section" id="result-section" style="display: none;">
+        <div class="card result-card">
+          <h2>Prediction Result</h2>
+          
+          <div class="result-main">
+            <div class="result-probability">
+              <div class="probability-circle" id="probability-visual">
+                <div class="probability-value" id="probability-value">—</div>
+                <div class="probability-unit">%</div>
+              </div>
+              <div class="probability-label" id="probability-label">—</div>
+            </div>
+
+            <div class="result-details">
+              <div class="risk-badge" id="risk-badge" style="display: none;"></div>
+              
+              <div class="factors-section">
+                <h3>Top Renewal Drivers</h3>
+                <ul class="factors-list" id="factors-list"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <p><strong>RenewAI v3.0</strong> — AI-powered SaaS renewal portfolio analytics</p>
+        <p>Multi-model ML pipeline • Churn prediction • Segment analysis • Intervention recommendations</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="app.js?v=4"></script>
+</body>
+</html>
